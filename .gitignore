@@ -1,0 +1,29 @@
+node_modules
+dist
+.vite
+*.local
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Backend
+backend/venv
+backend/__pycache__
+backend/uploads
+*.pyc
+__pycache__
+
+# IDE
+.idea
+.vscode
+*.sublime-*
+
+# Logs
+*.log
+npm-debug.log*
