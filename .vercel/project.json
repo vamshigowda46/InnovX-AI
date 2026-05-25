@@ -1,12 +1,1 @@
-{
-  "projectId": "innovx-ai",
-  "orgId": "team_innovx",
-  "settings": {
-    "framework": "vite",
-    "buildCommand": "npm run build",
-    "outputDirectory": "dist",
-    "rootDirectory": "frontend",
-    "nodeVersion": "20.x",
-    "installCommand": "npm install"
-  }
-}
+{"projectId":"prj_DynIUliM9a1otVr9ZvOV60Cqc4rj","orgId":"team_0IIy1Fa8mSaPnkJPtk0Rbvok","projectName":"innov-x-ai"}
