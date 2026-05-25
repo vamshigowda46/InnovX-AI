@@ -29,7 +29,7 @@ class Config:
 
     _ssl_connect_args = {}
     if _SSL_MODE and _SSL_MODE.upper() in ('REQUIRED', 'VERIFY_IDENTITY', 'VERIFY_CA'):
-        _ssl_connect_args = {'ssl': {}}
+        _ssl_connect_args = {'ssl': {'ca': '/etc/ssl/certs/ca-certificates.crt'}}
 
     SQLALCHEMY_ENGINE_OPTIONS = {
         'pool_recycle': 300,
