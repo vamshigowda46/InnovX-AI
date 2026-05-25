@@ -1,0 +1,18 @@
+name: Deploy backend to Render
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  render-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy backend to Render
+        uses: render-actions/github-action@v1
+        with:
+          apiKey: ${{ secrets.RENDER_API_KEY }}
+          serviceId: ${{ secrets.RENDER_SERVICE_ID }}
+          wait: true
