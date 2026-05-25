@@ -80,7 +80,11 @@ def create_app(config_name='default'):
     register_socket_events(app)
 
     with app.app_context():
-        db.create_all()
+        try:
+            db.create_all()
+        except Exception as e:
+            app.logger.warning('Database connection failed: %s', e)
+            app.logger.warning('App running without database connectivity')
 
     @app.errorhandler(404)
     def not_found(e):
