@@ -84,25 +84,29 @@ def verify_otp():
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
-    data = request.get_json()
-    valid, error = validate_required_fields(data, ['email', 'password'])
-    if not valid:
-        return jsonify({'error': error}), 400
+    import traceback
+    try:
+        data = request.get_json()
+        valid, error = validate_required_fields(data, ['email', 'password'])
+        if not valid:
+            return jsonify({'error': error}), 400
 
-    user = User.query.filter_by(email=data['email'].lower()).first()
-    if not user or not user.password_hash:
-        return jsonify({'error': 'Invalid credentials'}), 401
-    if not bcrypt.check_password_hash(user.password_hash, data['password']):
-        return jsonify({'error': 'Invalid credentials'}), 401
-    if not user.is_active:
-        return jsonify({'error': 'Account deactivated'}), 403
+        user = User.query.filter_by(email=data['email'].lower()).first()
+        if not user or not user.password_hash:
+            return jsonify({'error': 'Invalid credentials'}), 401
+        if not bcrypt.check_password_hash(user.password_hash, data['password']):
+            return jsonify({'error': 'Invalid credentials'}), 401
+        if not user.is_active:
+            return jsonify({'error': 'Account deactivated'}), 403
 
-    access_token, refresh_token = _issue_tokens(user)
-    return jsonify({
-        'access_token': access_token,
-        'refresh_token': refresh_token,
-        'user': user.to_dict(include_private=True)
-    }), 200
+        access_token, refresh_token = _issue_tokens(user)
+        return jsonify({
+            'access_token': access_token,
+            'refresh_token': refresh_token,
+            'user': user.to_dict(include_private=True)
+        }), 200
+    except Exception as e:
+        return jsonify({'error': 'Server error', 'detail': str(e), 'trace': traceback.format_exc()}), 500
 
 @auth_bp.route('/google', methods=['POST'])
 def google_auth():

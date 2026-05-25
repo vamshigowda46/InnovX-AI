@@ -96,7 +96,7 @@ def create_app(config_name='default'):
 
     @app.errorhandler(500)
     def server_error(e):
-        logger.exception('Unhandled server error')
+        app.logger.exception('Unhandled server error')
         return jsonify({'error': 'Internal server error'}), 500
 
     @app.errorhandler(429)
