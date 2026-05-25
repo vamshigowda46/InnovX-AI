@@ -24,7 +24,7 @@ def create_app(config_name='default'):
 
     socketio.init_app(app,
         cors_allowed_origins="*",
-        async_mode='threading',
+        async_mode='eventlet',
         logger=False,
         engineio_logger=False
     )
