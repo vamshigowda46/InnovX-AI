@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from app.extensions import db, jwt, bcrypt, socketio, cors, mail, limiter
 from config import config
 from app.utils.ai_service import init_gemini
@@ -111,5 +111,14 @@ def create_app(config_name='default'):
             'service': 'InnovX AI Backend',
             'ai': get_ai_status(),
         }), 200
+
+    @app.after_request
+    def add_cors_headers(response):
+        origin = request.headers.get('Origin')
+        if origin:
+            response.headers['Access-Control-Allow-Origin'] = origin
+            response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+            response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+        return response
 
     return app
