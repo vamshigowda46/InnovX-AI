@@ -4,6 +4,26 @@ from config import config
 from app.utils.ai_service import init_gemini
 import logging
 import os
+import ssl
+
+# Monkey-patch PyMySQL to allow SSL without cert verification (for Aiven MySQL self-signed cert)
+try:
+    import pymysql.connections
+    _orig_connect = pymysql.connections.Connection._connect
+    def _patched_connect(self, *args, **kwargs):
+        if hasattr(self, 'ssl') and self.ssl:
+            saved_ssl = self.ssl
+            self.ssl = None
+            result = _orig_connect(self, *args, **kwargs)
+            ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+            self._sock = ctx.wrap_socket(self._sock, server_hostname=self.host)
+            return result
+        return _orig_connect(self, *args, **kwargs)
+    pymysql.connections.Connection._connect = _patched_connect
+except ImportError:
+    pass
 
 def create_app(config_name='default'):
     app = Flask(__name__)
