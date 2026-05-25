@@ -7,6 +7,8 @@ load_dotenv()
 
 def _build_db_uri():
     raw = os.getenv('DATABASE_URL', 'mysql+pymysql://root:password@localhost:3306/innovx_db')
+    # Replace Aiven hostname with IP to avoid eventlet DNS resolution issues
+    raw = raw.replace('kafka-20b78fbf-vamshigowda46-8cc7.l.aivencloud.com', '164.90.141.40')
     parsed = urlparse(raw.replace('mysql+pymysql://', 'mysql://', 1))
     qs = parse_qs(parsed.query)
     ssl_mode = qs.pop('ssl-mode', [None])[0]
