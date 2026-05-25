@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: innovx-ai-backend
+    env: docker
+    dockerfilePath: Dockerfile
+    branch: main
+    plan: starter
+    autoDeploy: true
+    healthCheckPath: /api
+    envVars:
+      - key: SECRET_KEY
+        sync: false
+      - key: JWT_SECRET_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GOOGLE_MAPS_API_KEY
+        sync: false
+      - key: MAIL_USERNAME
+        sync: false
+      - key: MAIL_PASSWORD
+        sync: false
+      - key: FRONTEND_URL
+        value: https://innov-x-ai.vercel.app
+        sync: false
