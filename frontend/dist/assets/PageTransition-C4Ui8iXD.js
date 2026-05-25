@@ -1,0 +1,1 @@
+import{O as a,Q as o}from"./index-o-TnmrGR.js";function r({children:i,className:t=""}){return a.jsx(o.div,{initial:{opacity:0,y:12},animate:{opacity:1,y:0},exit:{opacity:0,y:-8},transition:{duration:.35,ease:[.22,1,.36,1]},className:t,children:i})}export{r as P};
